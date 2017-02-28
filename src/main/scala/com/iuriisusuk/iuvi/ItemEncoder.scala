@@ -1,6 +1,14 @@
+package com.iuriisusuk.iuvi
+
 import com.amazonaws.services.dynamodbv2.document.Item
 import shapeless.labelled.FieldType
 import shapeless.{::, HList, HNil, LabelledGeneric, Witness, _}
+
+//1 implement primitive types encoders
+//2 implement product (hlist) type encoder based on 1
+//3 create generic repr of case class and use 2 to
+//3 Generic[CaseClass].to(CaseClass())
+//  => Generic.Repr => Generic.Aux[A, Repr]
 
 // is A because can be String, Int or HList
 trait ItemEncoder[A] {
@@ -94,31 +102,10 @@ object ItemEncoder {
       //      println("gen enc")
       itemEncoder.value.encode(generic.to(value))
     }
+
+  def encode[A](toEncode: A)(implicit itemEncoder: ItemEncoder[A]) =
+    itemEncoder.encode(toEncode)
 }
-
-
-//case class Person(name: String, age: Int, married: Boolean)
-//case class Maker(name: String)
-//case class IceCream(name: String, subName: String, price: Int, maker: Maker)
-//
-//def encode[A](toEncode: A)(implicit itemEncoder: ItemEncoder[A]) =
-//  itemEncoder.encode(toEncode)
-//
-//case class PersonWithIceCream(person: Person, iceCream: IceCream)
-//val pGen = LabelledGeneric[Person].to(Person("Bob", 37, true))
-//encode(pGen)
-//encode(IceCream("engel", "blau", 1, Maker("de")))
-//
-//val personWithIceCream = new PersonWithIceCream(Person("bob", 37, true),
-//  IceCream("engel", "balue", 1, Maker("de")))
-//val pWithI = LabelledGeneric[PersonWithIceCream].to(personWithIceCream)
-//encode(personWithIceCream)
-
-//1 implement primitive types encoders
-//2 implement product (hlist) type encoder based on 1
-//3 create generic repr of case class and use 2 to
-//3 Generic[CaseClass].to(CaseClass())
-//  => Generic.Repr => Generic.Aux[A, Repr]
 
 
 
