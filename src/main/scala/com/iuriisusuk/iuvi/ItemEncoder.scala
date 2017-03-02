@@ -26,7 +26,7 @@ object ItemEncoder {
   implicit def stringEncoder[K <: Symbol, V <: String](
     implicit witness: Witness.Aux[K]
   ): ItemEncoder[FieldType[K, V]] =
-    ItemEncoder.instance { value =>
+    instance { value =>
       val item = new Item
       item.withString(witness.value.name, value)
       item
@@ -35,7 +35,7 @@ object ItemEncoder {
   implicit def intEncoder[K <: Symbol, V <: Int](
     implicit witness: Witness.Aux[K]
   ): ItemEncoder[FieldType[K, V]] =
-    ItemEncoder.instance { value =>
+    instance { value =>
       val item = new Item
       item.withInt(witness.value.name, value)
       item
@@ -44,7 +44,7 @@ object ItemEncoder {
   implicit def booleanEncoder[K <: Symbol, V <: Boolean](
     implicit witness: Witness.Aux[K]
   ): ItemEncoder[FieldType[K, V]] =
-    ItemEncoder.instance { value =>
+    instance { value =>
       val item = new Item
       item.withBoolean(witness.value.name, value)
       item
@@ -57,7 +57,7 @@ object ItemEncoder {
     generic: LabelledGeneric.Aux[A, R],
     encoder: ItemEncoder[R]
   ): ItemEncoder[FieldType[K, A]] =
-    ItemEncoder.instance { value =>
+    instance { value =>
       val i = encoder.encode(generic.to(value))
       val item = new Item
       val m = new java.util.HashMap[String, Any]()
