@@ -18,3 +18,5 @@ lazy val root = (project in file(".")).settings(
     scalaTest % Test
   )
 )
+
+tutSettings

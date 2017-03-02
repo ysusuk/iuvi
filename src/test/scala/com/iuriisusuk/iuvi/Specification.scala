@@ -8,7 +8,7 @@ import org.scalacheck.{Arbitrary, Properties}
 
 // TODO: generate and test arbitrary case class (will be easier by having decoder in place)
 // then we can test relation decode(encode(Person)) == Person
-case class Person(name: String, age: Int, married: Boolean)
+case class Person(name: String, age: Int, manager: Boolean)
 object Item {
   def apply(name: String, age: Int, married: Boolean): dynamodb.Item = {
     val map = new java.util.HashMap[String, Object]()
@@ -34,7 +34,7 @@ object Specification extends Properties("ItemEncoder") {
 //  } yield Person(name, age, married))
 
   property("not sos simple") = forAll { person: Person =>
-    encode(person) == Item(person.name, person.age, person.married)
+    encode(person) == Item(person.name, person.age, person.manager)
   }
 
 }

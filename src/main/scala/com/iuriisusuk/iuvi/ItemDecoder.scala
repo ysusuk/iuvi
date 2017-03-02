@@ -3,9 +3,7 @@ package com.iuriisusuk.iuvi
 import com.amazonaws.services.dynamodbv2.document.Item
 
 trait ItemDecoder[A] {
-  type B
-
-  def decode(item: Item): B
+  def decode(item: Item): A
 }
 
 object ItemDecoder {
